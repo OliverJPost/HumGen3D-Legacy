@@ -4,7 +4,7 @@ from ...features.common.HG_COMMON_FUNC import (add_to_collection, find_human,
                                                hg_delete)
 
 
-class HG_REVERT_TO_CREATION(bpy.types.Operator):
+class HG_LEGACY_REVERT_TO_CREATION(bpy.types.Operator):
     """
     Reverts to creation phase by deleting the current human and making the 
     corresponding backup human the active human
@@ -16,7 +16,7 @@ class HG_REVERT_TO_CREATION(bpy.types.Operator):
     Prereq:
         Active object is part of finalize phase
     """
-    bl_idname = "hg3d.revert"
+    bl_idname = "hg3d_legacy.revert"
     bl_label = "Revert: ALL changes made after creation phase will be discarded. This may break copied version of this human"
     bl_description = "Revert to the creation phase. This discards any changes made after the creation phase"
     bl_options = {"UNDO"}

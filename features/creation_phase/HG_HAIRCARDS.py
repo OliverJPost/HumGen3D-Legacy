@@ -11,11 +11,11 @@ from ...features.common.HG_COMMON_FUNC import (find_human, get_prefs, hg_log,
                                                print_context)
 
 
-class HG_CONVERT_HAIRCARDS(bpy.types.Operator):
+class HG_LEGACY_CONVERT_HAIRCARDS(bpy.types.Operator):
     """
     Removes the corresponding hair system
     """
-    bl_idname      = "hg3d.haircards"
+    bl_idname      = "hg3d_legacy.haircards"
     bl_label       = "Convert to hair cards"
     bl_description = "Converts this system to hair cards"
     bl_options     = {"REGISTER", "UNDO"}

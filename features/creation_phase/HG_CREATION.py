@@ -19,7 +19,7 @@ from .HG_MATERIAL import set_gender_specific_shader
 from .HG_NAMEGEN import get_name
 
 
-class HG_CREATION_BASE():
+class HG_LEGACY_CREATION_BASE():
     def create_human(self, context) -> 'tuple [bpy.types.Object, bpy.types.Object]':
         """Creates a new human based on the selected gender and starting human
 
@@ -304,7 +304,7 @@ class HG_CREATION_BASE():
             preset_data (dict): dictionary of preset data, imported from json
         """
         if preset_data['experimental']:
-            bpy.ops.hg3d.experimental()
+            bpy.ops.hg3d_legacy.experimental()
         
         preset_length = preset_data['body_proportions']['length']*100
         if preset_length > 181 and preset_length < 182:
@@ -412,7 +412,7 @@ def set_eevee_ao_and_strip(context):
     context.scene.render.hair_type = 'STRIP'
     context.scene.render.engine = current_render_engine
 
-class HG_START_CREATION(bpy.types.Operator, HG_CREATION_BASE):
+class HG_LEGACY_START_CREATION(bpy.types.Operator, HG_LEGACY_CREATION_BASE):
     """Imports human, setting the correct custom properties. 
     
     Operator type:
@@ -423,7 +423,7 @@ class HG_START_CREATION(bpy.types.Operator, HG_CREATION_BASE):
     Prereq:
         Starting human selected in humans preview collection
     """
-    bl_idname = "hg3d.startcreation"
+    bl_idname = "hg3d_legacy.startcreation"
     bl_label = "Generate New Human"
     bl_description = "Generate a new human"
     bl_options = {"UNDO"}

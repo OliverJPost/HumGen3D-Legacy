@@ -16,7 +16,7 @@ from ..features.common.HG_COMMON_FUNC import (
 from .HG_API_HUMAN import HG_Human
 
 
-class HG_Batch_Generator:
+class HG_LEGACY_Batch_Generator:
     """Generator/factory (?) for making completed HG_Humans in the background, the
     same way as the batch panel in the Human Generator GUI does."""
 

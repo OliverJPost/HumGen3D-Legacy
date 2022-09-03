@@ -12,7 +12,7 @@ from ...features.creation_phase.HG_FINISH_CREATION_PHASE import (
     add_driver, build_driver_dict)
 
 
-class HG_RIGIFY(bpy.types.Operator):
+class HG_LEGACY_RIGIFY(bpy.types.Operator):
     """Changes the rig to make it compatible with Rigify, then generates the rig
     
     Operator type:
@@ -23,7 +23,7 @@ class HG_RIGIFY(bpy.types.Operator):
         Active object is part of HumGen human
         Human still has normal rig
     """
-    bl_idname      = "hg3d.rigify"
+    bl_idname      = "hg3d_legacy.rigify"
     bl_label       = "Generate Rigify Rig"
     bl_description = "Generates a Rigify rig for this human"
     bl_options     = {"REGISTER", "UNDO"}

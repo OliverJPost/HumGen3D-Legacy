@@ -25,7 +25,7 @@ from ..user_interface.HG_PANEL_FUNCTIONS import \
     in_creation_phase as _in_creation_phase
 
 
-class HG_Key_Blocks():
+class HG_LEGACY_Key_Blocks():
     """Object that contains the different types of key_blocks used by Human 
     Generator humans.
     """
@@ -98,7 +98,7 @@ class HG_Key_Blocks():
                 if sk.name.startswith(prefix)
                 ]
 
-class HG_Human():
+class HG_LEGACY_Human():
     """Python representation of a Human Generator human. Can be used to either
     make new humans or modify existing ones.
     """

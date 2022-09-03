@@ -15,7 +15,7 @@ from ...features.creation_phase.HG_LENGTH import (apply_armature,
                                                   apply_length_to_rig)
 
 
-class HG_REMOVE_SHAPEKEY(bpy.types.Operator):
+class HG_LEGACY_REMOVE_SHAPEKEY(bpy.types.Operator):
     """Removes the corresponding shapekey
     
     Operator type
@@ -28,7 +28,7 @@ class HG_REMOVE_SHAPEKEY(bpy.types.Operator):
     Args:
         shapekey (str): name of shapekey to remove
     """
-    bl_idname      = "hg3d.removesk"
+    bl_idname      = "hg3d_legacy.removesk"
     bl_label       = "Remove this shapekey"
     bl_description = "Remove this shapekey"
     bl_options     = {"UNDO"}
@@ -197,7 +197,7 @@ class FRIG_DATA: #TODO this is a bit weird
             "tongue_out_lt_rt_up_dwn",
         ]
 
-class HG_ADD_FRIG(bpy.types.Operator, FRIG_DATA):
+class HG_LEGACY_ADD_FRIG(bpy.types.Operator, FRIG_DATA):
     """Adds the facial rig to this human, importing the necessary shapekeys
     
     Operator type:
@@ -208,7 +208,7 @@ class HG_ADD_FRIG(bpy.types.Operator, FRIG_DATA):
         Active object is part of HumGen human
         Human doesn't already have a facial rig
     """
-    bl_idname      = "hg3d.addfrig"
+    bl_idname      = "hg3d_legacy.addfrig"
     bl_label       = "Add facial rig"
     bl_description = "Adds facial rig"
     bl_options     = {"UNDO"}
@@ -291,7 +291,7 @@ class HG_ADD_FRIG(bpy.types.Operator, FRIG_DATA):
 
         
         
-class HG_REMOVE_FRIG(bpy.types.Operator, FRIG_DATA):
+class HG_LEGACY_REMOVE_FRIG(bpy.types.Operator, FRIG_DATA):
     """Removes the facial rig, including its shapekeys
     
     Operator type:
@@ -302,7 +302,7 @@ class HG_REMOVE_FRIG(bpy.types.Operator, FRIG_DATA):
         Active object is part of HumGen human
         Human has a facial rig loaded
     """
-    bl_idname      = "hg3d.removefrig"
+    bl_idname      = "hg3d_legacy.removefrig"
     bl_label       = "Remove facial rig"
     bl_description = "Remove facial rig"
     bl_options     = {"UNDO"}

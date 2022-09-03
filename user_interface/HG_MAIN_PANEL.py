@@ -17,14 +17,14 @@ from .HG_PANEL_FUNCTIONS import (draw_panel_switch_header, draw_spoiler_box,
                                  searchbox)
 
 
-class HG_PT_PANEL(bpy.types.Panel):
+class HG_LEGACY_PT_LEGACY(bpy.types.Panel):
     """Main Human Generator panel, divided into creation phase and finalize 
     phase. These phases are then divided into sections (i.e. hair, body, face)
 
     One exception is the clothing material section. If a HumGen clothing object
     is selected, this UI shows options to change the material
     """
-    bl_idname      = "HG_PT_Panel"
+    bl_idname      = "HG_PT_LEGACY"
     bl_label       = "HumGen"
     bl_space_type  = "VIEW_3D"
     bl_region_type = "UI"
@@ -32,8 +32,7 @@ class HG_PT_PANEL(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        sett = context.scene.HG3D
-        return sett.active_ui_tab == 'CREATE' and not sett.content_saving_ui
+        return context.object and context.object.HG.is_legacy
 
     def draw_header(self, context):
         draw_panel_switch_header(self.layout, context.scene.HG3D)
@@ -150,7 +149,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         layout.label(text = 'No filepath selected')
         layout.label(text = 'Select one in the preferences')
         layout.operator(
-            'hg3d.openpref',
+            'hg3d_legacy.openpref',
             text = 'Open preferences',
             icon ='PREFERENCES')
         
@@ -182,7 +181,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             layout.label(text = 'Check if filepath is correct and')
             layout.label(text = 'if the content packs are installed.')
             
-            layout.operator('hg3d.openpref',
+            layout.operator('hg3d_legacy.openpref',
                             text = 'Open preferences',
                             icon ='PREFERENCES'
                             )     
@@ -215,7 +214,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         if self.update == 'cpack_required':
             layout.alert = True
             layout.label(text = 'One or more cpacks outdated!')
-            layout.operator('hg3d.openpref',
+            layout.operator('hg3d_legacy.openpref',
                             text = 'Open preferences',
                             icon ='PREFERENCES'
                             )
@@ -224,7 +223,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             addon_label = 'Add-on update available!'
             cpack_label = 'CPack updates available'
             label = addon_label if self.update == 'addon' else cpack_label
-            layout.operator("hg3d.openpref",
+            layout.operator("hg3d_legacy.openpref",
                             text = label,
                             icon = 'PACKAGE',
                             depress = True,
@@ -234,7 +233,7 @@ class HG_PT_PANEL(bpy.types.Panel):
     def _welcome_menu(self, layout):
         col = layout.column()
         col.scale_y = 4
-        col.operator('hg3d.showinfo',
+        col.operator('hg3d_legacy.showinfo',
                      text = 'Welcome to Human Generator!',
                      depress = True
                      )
@@ -244,7 +243,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         col_h.alert = True
 
         tutorial_op = col_h.operator(
-            'hg3d.draw_tutorial',
+            'hg3d_legacy.draw_tutorial',
             text='Get Started!',
             depress=True,
             icon='FAKE_USER_ON'
@@ -299,12 +298,12 @@ class HG_PT_PANEL(bpy.types.Panel):
             self._experimental_mode_button(hg_rig, row_h)
 
         row = col.row(align=True)
-        row.operator('hg3d.next_prev_human', text = 'Previous', icon = 'TRIA_LEFT').forward = False
-        row.operator('hg3d.next_prev_human', text = 'Next', icon = 'TRIA_RIGHT').forward = True
+        row.operator('hg3d_legacy.next_prev_human', text = 'Previous', icon = 'TRIA_LEFT').forward = False
+        row.operator('hg3d_legacy.next_prev_human', text = 'Next', icon = 'TRIA_RIGHT').forward = True
         
         row = col.row(align=True)
-        row.operator('hg3d.deselect', icon = 'RESTRICT_SELECT_ON')
-        row.operator('hg3d.delete', text = 'Delete', icon = 'TRASH')
+        row.operator('hg3d_legacy.deselect', icon = 'RESTRICT_SELECT_ON')
+        row.operator('hg3d_legacy.delete', text = 'Delete', icon = 'TRASH')
         
         if hg_rig:
             box = col.box()
@@ -317,7 +316,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         if not is_expr:
             subrow.alert = True
                 
-        subrow.operator('hg3d.experimental',
+        subrow.operator('hg3d_legacy.experimental',
             text = '',
             icon = 'GHOST_{}'.format('DISABLED' if is_expr else 'ENABLED'),
             depress = True)
@@ -365,7 +364,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         col = box.column()
         col.scale_y = 2
         col.alert   = True
-        col.operator('hg3d.startcreation',
+        col.operator('hg3d_legacy.startcreation',
                      icon = 'COMMUNITY',
                      depress = True
                      )
@@ -405,7 +404,7 @@ class HG_PT_PANEL(bpy.types.Panel):
 
         col_h = col.column()
         col_h.scale_y = 1.5
-        col_h.operator('hg3d.random',
+        col_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'body_type'
@@ -501,7 +500,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row.scale_y = 2
         row.scale_x = 1.2
         row.prop(self.sett, 'human_length', text = 'Length [cm]')
-        row.operator('hg3d.randomlength', text = '', icon = 'FILE_REFRESH')
+        row.operator('hg3d_legacy.randomlength', text = '', icon = 'FILE_REFRESH')
 
 
     #  _______    ___       ______  _______ 
@@ -524,8 +523,8 @@ class HG_PT_PANEL(bpy.types.Panel):
         col = box.column()
         col.scale_y = 1.5
         row = col.row(align = True)
-        row.operator('hg3d.random', text = 'Randomize all').random_type = 'face_all'
-        row.operator('hg3d.resetface', text = '', icon = 'LOOP_BACK')
+        row.operator('hg3d_legacy.random', text = 'Randomize all').random_type = 'face_all'
+        row.operator('hg3d_legacy.resetface', text = '', icon = 'LOOP_BACK')
         
         col = box.column(align= True)
         
@@ -645,14 +644,14 @@ class HG_PT_PANEL(bpy.types.Panel):
             )
         if is_open_propname != 'presets':
             row.operator(
-                'hg3d.random',
+                'hg3d_legacy.random',
                 text = '',
                 icon = 'FILE_REFRESH',
                 emboss = False
                 ).random_type = 'face_{}'.format(is_open_propname)
         else:
             row.operator(
-                'hg3d.showinfo',
+                'hg3d_legacy.showinfo',
                 text = '',
                 icon = 'BLANK1',
                 emboss = False
@@ -715,7 +714,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         col = boxbox.column(align = True)
         col.scale_y = 1.2
         
-        col.operator('hg3d.random',
+        col.operator('hg3d_legacy.random',
                        text = 'Randomize skin',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'skin'
@@ -752,7 +751,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         
         row = col.row()
         row.label(text = 'Subsurface scattering')
-        row.operator('hg3d.showinfo',
+        row.operator('hg3d_legacy.showinfo',
                      text = '',
                      icon ='QUESTION',
                      emboss = False
@@ -1058,7 +1057,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row.prop(nodes['HG_Eye_Color'].inputs[2], 'default_value',
                  text = 'Iris Color'
                  )
-        row.operator('hg3d.random', text = '', icon = 'FILE_REFRESH').random_type = 'iris_color'
+        row.operator('hg3d_legacy.random', text = '', icon = 'FILE_REFRESH').random_type = 'iris_color'
         col.prop(nodes['HG_Scelera_Color'].inputs[2],
                  'default_value', text = 'Sclera Color'
                  )
@@ -1086,11 +1085,11 @@ class HG_PT_PANEL(bpy.types.Panel):
                     else "OUTLINER_OB_HAIR")
         row.label(text = 'Eyebrows:', icon = hair_icon)
         row = boxbox.row(align = True)
-        row.operator('hg3d.eyebrowswitch',
+        row.operator('hg3d_legacy.eyebrowswitch',
                      text = 'Previous',
                      icon = 'TRIA_LEFT'
                      ).forward = False
-        row.operator('hg3d.eyebrowswitch',
+        row.operator('hg3d_legacy.eyebrowswitch',
                      text = 'Next',
                      icon = 'TRIA_RIGHT'
                      ).forward = True
@@ -1202,7 +1201,7 @@ class HG_PT_PANEL(bpy.types.Panel):
                           if hair_systems[0].settings.child_nbr <= 1 
                           else 'Hair children are visible')
                   )
-        row.operator('hg3d.togglechildren',
+        row.operator('hg3d_legacy.togglechildren',
                      text = '',
                      icon=('HIDE_ON' 
                            if hair_systems[0].settings.child_nbr <= 1 
@@ -1212,7 +1211,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         
         row.separator()
         
-        row.operator('hg3d.showinfo',
+        row.operator('hg3d_legacy.showinfo',
                      icon = 'QUESTION',
                      emboss = False
                      ).info = 'hair_children'
@@ -1248,7 +1247,7 @@ class HG_PT_PANEL(bpy.types.Panel):
                 text = ps_name
                 )
             row.operator(
-                'hg3d.removehair',
+                'hg3d_legacy.removehair',
                 text = '',
                 icon = 'TRASH'
                 ).hair_system = ps.name
@@ -1364,7 +1363,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             toggle=True)
 
         if self.sett.hair_cards_ui:
-            box.operator('hg3d.haircards')
+            box.operator('hg3d_legacy.haircards')
 
     def _get_hair_systems(self, body_obj, eyesystems = False) -> list:
         """get a list of hair systems on this object
@@ -1397,7 +1396,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         col = layout.column() 
         col.alert   = True
         col.scale_y = 1.5
-        col.operator('hg3d.finishcreation',
+        col.operator('hg3d_legacy.finishcreation',
                     text = 'Finish Creation Phase' ,
                     icon = 'FILE_ARCHIVE',
                     depress = True
@@ -1424,7 +1423,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         col_h = box.column()
         col_h.scale_y = 1.5
         col_h.alert= True
-        col_h.operator('hg3d.revert',
+        col_h.operator('hg3d_legacy.revert',
                        text = 'Revert to Creation Phase',
                        icon = 'ERROR',
                        depress = True
@@ -1491,7 +1490,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row_h = box.row(align = True)
         row_h.scale_y = 1.5
         row_h.prop(sett, 'outfit_sub', text = '')
-        row_h.operator('hg3d.random',
+        row_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'outfit'
@@ -1525,7 +1524,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row_h = box.row(align = True)
         row_h.scale_y = 1.5
         row_h.prop(sett, 'footwear_sub', text = '')
-        row_h.operator('hg3d.random',
+        row_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'footwear'
@@ -1568,7 +1567,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             col = box.column()
             col.scale_y = 1.5
             col.alert = True
-            col.operator('hg3d.rigify', depress = True)
+            col.operator('hg3d_legacy.rigify', depress = True)
         else:
             box.label(text = 'Rigify is not enabled')
 
@@ -1583,7 +1582,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         if 'hg_rigify' in self.hg_rig.data:
             row = box.row(align = True)
             row.label(text = 'Rigify not supported', icon ='ERROR')
-            row.operator('hg3d.showinfo',
+            row.operator('hg3d_legacy.showinfo',
                          text = '',
                          icon = 'QUESTION'
                          ).info = 'rigify_library'
@@ -1601,7 +1600,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row_h = box.row(align = True)
         row_h.scale_y = 1.5
         row_h.prop(sett, 'pose_sub', text = '')
-        row_h.operator('hg3d.random',
+        row_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'poses'
@@ -1639,7 +1638,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             col = box.column()
             col.alert = True    
             col.scale_y = 1.5   
-            col.operator('hg3d.removefrig',
+            col.operator('hg3d_legacy.removefrig',
                          text = 'Remove facial rig',
                          icon = 'TRASH',
                          depress = True
@@ -1658,7 +1657,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row_h = box.row(align= True)
         row_h.scale_y = 1.5
         row_h.prop(sett, 'expressions_sub', text = '')
-        row_h.operator('hg3d.random',
+        row_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'expressions'
@@ -1694,7 +1693,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             
             row = flow.row(align = True)
             row.prop(sk, 'value', text = display_name.capitalize())
-            row.operator('hg3d.removesk',
+            row.operator('hg3d_legacy.removesk',
                          text = '',
                          icon = 'TRASH'
                          ).shapekey = sk.name
@@ -1712,7 +1711,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             col_h = col.column()
             col_h.scale_y = 1.5
             tutorial_op = col_h.operator(
-                'hg3d.draw_tutorial',
+                'hg3d_legacy.draw_tutorial',
                 text='ARKit tutorial',
                 icon='HELP'
             )
@@ -1721,7 +1720,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         else:
             col.scale_y = 2
             col.alert = True
-            col.operator('hg3d.addfrig',
+            col.operator('hg3d_legacy.addfrig',
                          text = 'Add facial rig',
                          depress = True
                          )
@@ -1783,7 +1782,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             )
 
         col.operator(
-            'hg3d.backhuman',
+            'hg3d_legacy.backhuman',
             text= 'Go back to human',
             icon = 'RESTRICT_SELECT_OFF',
             depress = True
@@ -1791,7 +1790,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         alert_col = col.column(align = True)
         alert_col.alert = True
         alert_col.operator(
-            'hg3d.deletecloth',
+            'hg3d_legacy.deletecloth',
             text = 'Delete clothing item',
             icon = 'TRASH',
             depress = True
@@ -1834,7 +1833,7 @@ class HG_PT_PANEL(bpy.types.Panel):
             return
         
         c_random = row.operator(
-            'hg3d.color_random',
+            'hg3d_legacy.color_random',
             text = '',
             icon = 'FILE_REFRESH'
             )
@@ -1877,7 +1876,7 @@ class HG_PT_PANEL(bpy.types.Panel):
 
         row = p_box.row(align = True)
         row.scale_y = 1.3
-        row.operator('hg3d.pattern',
+        row.operator('hg3d_legacy.pattern',
                      text = 'Remove' if pattern else 'Add Pattern',
                      icon = 'TRASH' if pattern else 'TEXTURE'
                      ).add = False if pattern else True
@@ -1918,7 +1917,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row_h = p_flow.row(align= True)
         row_h.scale_y = 1.5*0.8 #quick fix because history
         row_h.prop(sett, 'patterns_sub', text = '')
-        row_h.operator('hg3d.random',
+        row_h.operator('hg3d_legacy.random',
                        text = 'Random',
                        icon = 'FILE_REFRESH'
                        ).random_type = 'patterns'
@@ -1983,7 +1982,7 @@ class HG_PT_PANEL(bpy.types.Panel):
         row.alignment = 'CENTER'
         row.scale_y = 2
         row.label(text = 'This is a batch human', icon = 'INFO')
-        row.operator('hg3d.showinfo',
+        row.operator('hg3d_legacy.showinfo',
                      text = '',
                      icon ='QUESTION',
                      emboss = False
@@ -1991,7 +1990,7 @@ class HG_PT_PANEL(bpy.types.Panel):
           
 
 #TODO incorrect naming per Blender scheme
-class HG_PT_ROT_LOC_SCALE(bpy.types.Panel):
+class HG_LEGACY_PT_ROT_LOC_SCALE_LEGACY(bpy.types.Panel):
     '''
     Popover for the rot, loc and scale of the pattern
     '''

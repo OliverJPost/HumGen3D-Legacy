@@ -13,7 +13,7 @@ from ...features.common.HG_INFO_POPUPS import HG_OT_INFO
 from .HG_LENGTH import apply_armature, apply_length_to_rig
 
 
-class HG_FINISH_CREATION(bpy.types.Operator):
+class HG_LEGACY_FINISH_CREATION(bpy.types.Operator):
     """Finish the creation phase, going over:
         -applying body and face shapekeys
         -removing unused eyebrow styles
@@ -31,7 +31,7 @@ class HG_FINISH_CREATION(bpy.types.Operator):
         Active object is part of a HumGen human
         That human is in creation phase
     """
-    bl_idname = "hg3d.finishcreation"
+    bl_idname = "hg3d_legacy.finishcreation"
     bl_label = "Click to confirm. You can't go back to previous tabs"
     bl_description = "Complete creation phase, moving on to finalizing phase"
     bl_options = {"UNDO"}

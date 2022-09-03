@@ -15,7 +15,7 @@ from ...features.creation_phase.HG_MATERIAL import (randomize_iris_color,
 from .HG_COMMON_FUNC import find_human
 
 
-class HG_COLOR_RANDOM(bpy.types.Operator):
+class HG_LEGACY_COLOR_RANDOM(bpy.types.Operator):
     """
     Sets the color slot to a random color from the color dicts from HG_COLORS
     
@@ -31,7 +31,7 @@ class HG_COLOR_RANDOM(bpy.types.Operator):
         color_group (str):  Name of the color groups stored in HG_COLOR to pick
             colors from
     """
-    bl_idname      = "hg3d.color_random"
+    bl_idname      = "hg3d_legacy.color_random"
     bl_label       = "Random Color"
     bl_description = "Randomize this property"
     bl_options     = {"UNDO", 'INTERNAL'}
@@ -69,7 +69,7 @@ class HG_COLOR_RANDOM(bpy.types.Operator):
         
         return float_color_rgb
 
-class HG_RANDOM(bpy.types.Operator):
+class HG_LEGACY_RANDOM(bpy.types.Operator):
     """randomizes this specific property, may it be a slider or a pcoll
 
     API: True
@@ -85,7 +85,7 @@ class HG_RANDOM(bpy.types.Operator):
     Args:
         random_type (str): internal name of property to randomize
     """
-    bl_idname      = "hg3d.random"
+    bl_idname      = "hg3d_legacy.random"
     bl_label       = "Redraw Random"
     bl_description = "Randomize this property"
     bl_options     = {"UNDO", 'INTERNAL'}

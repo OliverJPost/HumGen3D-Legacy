@@ -13,18 +13,9 @@ import bpy
 
 from ..features.common.HG_COMMON_FUNC import find_human, hg_log
 from ..features.creation_phase.HG_BODY import get_scaling_data
-from ..features.utility_section.HG_UTILITY_FUNC import (refresh_hair_ul,
-                                                        refresh_modapply,
-                                                        refresh_outfit_ul,
-                                                        refresh_shapekeys_ul)
-from ..user_interface.HG_BATCH_UILIST import \
-    batch_uilist_refresh  # type: ignore
-from ..user_interface.HG_TIPS_SUGGESTIONS_UI import \
-    update_tips_from_context  # type:ignore
-from .HG_PCOLL import refresh_pcoll
 
 
-class HG_ACTIVATE(bpy.types.Operator):
+class HG_LEGACY_ACTIVATE(bpy.types.Operator):
     """
     Activates the HumGen msgbus, also refreshes human pcoll
     
@@ -35,7 +26,7 @@ class HG_ACTIVATE(bpy.types.Operator):
     Prereq:
         -Not subscribed to Msgbus (sett.subscribed == False)
     """
-    bl_idname      = "hg3d.activate"
+    bl_idname      = "hg3d_legacy.activate"
     bl_label       = "Activate"
     bl_description = "Activate HumGen"
     
@@ -44,8 +35,7 @@ class HG_ACTIVATE(bpy.types.Operator):
         sett.subscribed = False
 
         msgbus(self, context)
-        refresh_pcoll(self, context, 'humans')
-        hg_log('Activating HumGen')
+        hg_log('Activating LEGACY HumGen')
         return {'FINISHED'} 
 
 def msgbus(self, context):
@@ -62,11 +52,11 @@ def msgbus(self, context):
         key    = subscribe_to,
         owner  = self,
         args   = (self,),
-        notify = HG_Callback,
+        notify = HG_Legacy_Callback,
         )
     sett.subscribed = True    
 
-def HG_Callback(self):
+def HG_Legacy_Callback(self):
     """
     Runs every time the active object changes
     """ 
@@ -147,13 +137,8 @@ def _context_specific_updates(self, sett, hg_rig, ui_phase):
     """
     sett.update_exception = False
     context = bpy.context
-    if sett.active_ui_tab == 'TOOLS':   
-        refresh_modapply(self, context)
-        refresh_shapekeys_ul(self, context)
-        refresh_hair_ul(self, context)
-        refresh_outfit_ul(self, context)
-        return
-    elif ui_phase == 'body':
+
+    if ui_phase == 'body':
         _refresh_body_scaling(self, sett, hg_rig)
     elif ui_phase == 'skin':
         refresh_pcoll(self, context, 'textures')
@@ -192,17 +177,6 @@ def _refresh_body_scaling(self, sett, hg_rig):
             
         setattr(sett, f"{group_name}_size", slider_value)
         
-def tab_change_update(self, context):
-    """Update function for when the user switches between the main tabs (Main UI,
-    Batch tab and Utility tab)"""
-    
-    refresh_modapply(self, context)
-    
-    update_tips_from_context(context, context.scene.HG3D, find_human(context.object))
-    
-    batch_uilist_refresh(self, context, 'outfits')
-    batch_uilist_refresh(self, context, 'expressions')
-
 def _hair_shader_type_update(sett, hg_body):
     mat= hg_body.data.materials[1]
     hair_node = mat.node_tree.nodes.get('HG_Hair_V3')

@@ -10,7 +10,7 @@ import numpy  # type: ignore
 from ...features.common.HG_COMMON_FUNC import find_human
 
 
-class HG_RANDOM_LENGTH(bpy.types.Operator):
+class HG_LEGACY_RANDOM_LENGTH(bpy.types.Operator):
     """Randomizes the length of the human between an even range of 150-200
 
     Operator type:
@@ -19,7 +19,7 @@ class HG_RANDOM_LENGTH(bpy.types.Operator):
     Prereq:
         Active object is part of a HumGen human
     """
-    bl_idname      = "hg3d.randomlength"
+    bl_idname      = "hg3d_legacy.randomlength"
     bl_label       = "Random Length"
     bl_description = 'Random Length'
     bl_options     = {"UNDO"}

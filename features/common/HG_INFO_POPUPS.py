@@ -1,7 +1,7 @@
 import bpy  # type: ignore
 
 
-class HG_OT_INFO(bpy.types.Operator):
+class HG_LEGACY_OT_INFO(bpy.types.Operator):
     """
     Operator for showing a popup message when the questionmark icon is pressed.
     
@@ -16,7 +16,7 @@ class HG_OT_INFO(bpy.types.Operator):
     Args:
         info (str): Name of message function in this document
     """
-    bl_idname      = "hg3d.showinfo"
+    bl_idname      = "hg3d_legacy.showinfo"
     bl_label       = ""
     bl_description = "Info about these options"
 

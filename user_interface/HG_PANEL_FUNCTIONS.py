@@ -124,14 +124,14 @@ def draw_spoiler_box(self, ui_name) -> 'tuple[bool, bpy.types.UILayout]':
     
     try:
         hg_icons =  preview_collections["hg_icons"]
-        row.operator('hg3d.section_toggle',
+        row.operator('hg3d_legacy.section_toggle',
                      text = label,
                      icon_value= hg_icons[ui_name].icon_id,
                      emboss = False
                      ).section_name = ui_name
     except:
         icon = icon_dict[ui_name]
-        row.operator('hg3d.section_toggle',
+        row.operator('hg3d_legacy.section_toggle',
                      text = label,
                      icon= icon,
                      emboss=False
@@ -164,7 +164,7 @@ def searchbox(sett, name, layout):
         }
     
     if sett_dict[name] != '':
-        row.operator('hg3d.clear_searchbox',
+        row.operator('hg3d_legacy.clear_searchbox',
                      text = '',
                      icon = 'X'
                      ).searchbox_name = name
@@ -198,7 +198,7 @@ def draw_resolution_box(sett, col, show_batch_comparison = False):
                 row = col.row()
                 row.alert = True
                 row.label(text = 'Higher than source texture')
-                row.operator('hg3d.showinfo',
+                row.operator('hg3d_legacy.showinfo',
                      text = '',
                      icon ='QUESTION',
                      emboss = False

@@ -13,7 +13,7 @@ from ...features.common.HG_RANDOM import set_random_active_in_pcoll
 from ...features.finalize_phase.HG_CLOTHING_LOAD import find_masks
 
 
-class HG_BACK_TO_HUMAN(bpy.types.Operator):
+class HG_LEGACY_BACK_TO_HUMAN(bpy.types.Operator):
     """Makes the rig the active object, changing the ui back to the default state
     
     API: False
@@ -25,7 +25,7 @@ class HG_BACK_TO_HUMAN(bpy.types.Operator):
     Prereq:
         Cloth object was active
     """
-    bl_idname      = "hg3d.backhuman"
+    bl_idname      = "hg3d_legacy.backhuman"
     bl_label       = "Back to Human"
     bl_description = "Makes the human the active object"
     
@@ -34,7 +34,7 @@ class HG_BACK_TO_HUMAN(bpy.types.Operator):
         context.view_layer.objects.active = hg_rig
         return {'FINISHED'} 
 
-class HG_DELETE_CLOTH(bpy.types.Operator):
+class HG_LEGACY_DELETE_CLOTH(bpy.types.Operator):
     """Deletes the selected cloth object, also removes any mask modifiers this
     cloth was using
     
@@ -44,7 +44,7 @@ class HG_DELETE_CLOTH(bpy.types.Operator):
     Prereq:
         Active object is a HumGen clothing object
     """
-    bl_idname = "hg3d.deletecloth"
+    bl_idname = "hg3d_legacy.deletecloth"
     bl_label = "Delete cloth"
     bl_description = "Deletes this clothing object"
     
@@ -64,11 +64,11 @@ class HG_DELETE_CLOTH(bpy.types.Operator):
         context.view_layer.objects.active = hg_rig
         return {'FINISHED'} 
 
-class HG_OT_PATTERN(bpy.types.Operator):
+class HG_LEGACY_OT_PATTERN(bpy.types.Operator):
     """
     Adds a pattern to the selected cloth material, adding the necessary nodes. Also used for removing the pattern
     """ 
-    bl_idname = "hg3d.pattern"
+    bl_idname = "hg3d_legacy.pattern"
     bl_label = "Cloth Pattern"
     bl_description = "Toggles pattern on and off"
     
@@ -175,6 +175,6 @@ def randomize_clothing_colors(context, cloth_obj):
         
         context.view_layer.objects.active = cloth_obj
 
-        bpy.ops.hg3d.color_random(input_name = input.name, color_group = color_group)
+        bpy.ops.hg3d_legacy.color_random(input_name = input.name, color_group = color_group)
     
     context.view_layer.objects.active = old_active

@@ -6,7 +6,7 @@ import numpy as np #type:ignore
 from ...features.common.HG_COMMON_FUNC import find_human
 
 
-class HG_RESET_FACE(bpy.types.Operator):
+class HG_LEGACY_RESET_FACE(bpy.types.Operator):
     """Resets all face deformation values to 0
     
     Operator type:
@@ -15,7 +15,7 @@ class HG_RESET_FACE(bpy.types.Operator):
     Prereq:
         Active object is part of HumGen human
     """
-    bl_idname      = "hg3d.resetface"
+    bl_idname      = "hg3d_legacy.resetface"
     bl_label       = "Reset face"
     bl_description = "Resets all face deformation values to 0"
     bl_options     = {"UNDO"}

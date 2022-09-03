@@ -12,7 +12,7 @@ from .HG_COMMON_FUNC import (find_human, get_prefs, hg_delete, hg_log,
 from .HG_INFO_POPUPS import HG_OT_INFO
 
 
-class HG_DESELECT(bpy.types.Operator):
+class HG_LEGACY_DESELECT(bpy.types.Operator):
     """
     Sets the active object as none
     
@@ -23,7 +23,7 @@ class HG_DESELECT(bpy.types.Operator):
     Prereq:
         -Human selected
     """
-    bl_idname      = "hg3d.deselect"
+    bl_idname      = "hg3d_legacy.deselect"
     bl_label       = "Deselect"
     bl_description = "Deselects active object"
     bl_options     = {"REGISTER", "UNDO"}
@@ -35,7 +35,7 @@ class HG_DESELECT(bpy.types.Operator):
         context.view_layer.objects.active = None
         return {'FINISHED'}
 
-class HG_SECTION_TOGGLE(bpy.types.Operator):
+class HG_LEGACY_SECTION_TOGGLE(bpy.types.Operator):
     """
     Section tabs, pressing it will make that section the open/active one, 
     closing any other opened sections
@@ -48,7 +48,7 @@ class HG_SECTION_TOGGLE(bpy.types.Operator):
     Args:
         section_name (str): name of the section to toggle
     """
-    bl_idname      = "hg3d.section_toggle"
+    bl_idname      = "hg3d_legacy.section_toggle"
     bl_label       = ""
     bl_description = """
         Open this menu
@@ -105,7 +105,7 @@ class HG_SECTION_TOGGLE(bpy.types.Operator):
             if pref.auto_hide_popup:
                 HG_OT_INFO.ShowMessageBox(None, 'autohide_hair')
 
-class HG_NEXT_PREV_HUMAN(bpy.types.Operator):
+class HG_LEGACY_NEXT_PREV_HUMAN(bpy.types.Operator):
     """Zooms in on next or previous human in the scene
 
     Operator Type:
@@ -119,7 +119,7 @@ class HG_NEXT_PREV_HUMAN(bpy.types.Operator):
         Humans in scene
     """
     
-    bl_idname      = "hg3d.next_prev_human"
+    bl_idname      = "hg3d_legacy.next_prev_human"
     bl_label       = "Next/Previous"
     bl_description = "Goes to the next human"
     bl_options     = {"UNDO"}
@@ -165,7 +165,7 @@ class HG_NEXT_PREV_HUMAN(bpy.types.Operator):
         
         return {'FINISHED'}
 
-class HG_OPENPREF(bpy.types.Operator):
+class HG_LEGACY_OPENPREF(bpy.types.Operator):
     """Opens the preferences. 
     
     API: False
@@ -176,7 +176,7 @@ class HG_OPENPREF(bpy.types.Operator):
     Prereq:
         None
     """
-    bl_idname = "hg3d.openpref"
+    bl_idname = "hg3d_legacy.openpref"
     bl_label = ""
     bl_description = "Opens the preferences window"
     bl_options = {"REGISTER", "UNDO"}
@@ -194,7 +194,7 @@ class HG_OPENPREF(bpy.types.Operator):
         old_area.ui_type = old_ui_type    
         return {'FINISHED'}
 
-class HG_DELETE(bpy.types.Operator):
+class HG_LEGACY_DELETE(bpy.types.Operator):
     """
     Deletes the active human, including it's backup human if it's not in use by 
     any other humans
@@ -205,7 +205,7 @@ class HG_DELETE(bpy.types.Operator):
     Prereq:
         Active object is part of HumGen human
     """
-    bl_idname      = "hg3d.delete"
+    bl_idname      = "hg3d_legacy.delete"
     bl_label       = "Delete Human"
     bl_description = "Deletes human and all objects associated with the human"
     bl_options     = {"UNDO"}
@@ -247,7 +247,7 @@ class HG_DELETE(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class HG_CLEAR_SEARCH(bpy.types.Operator):
+class HG_LEGACY_CLEAR_SEARCH(bpy.types.Operator):
     """Clears the passed searchfield
     
     API: False
@@ -261,7 +261,7 @@ class HG_CLEAR_SEARCH(bpy.types.Operator):
     Args:
         pcoll_type (str): Name of preview collection to clear the searchbox for
     """
-    bl_idname      = "hg3d.clear_searchbox"
+    bl_idname      = "hg3d_legacy.clear_searchbox"
     bl_label       = "Clear search"
     bl_description = "Clears the searchbox"
 
@@ -277,9 +277,9 @@ class HG_CLEAR_SEARCH(bpy.types.Operator):
 
         return {'FINISHED'}
 
-class HG_NEXTPREV_CONTENT_SAVING_TAB(bpy.types.Operator):
+class HG_LEGACY_NEXTPREV_CONTENT_SAVING_TAB(bpy.types.Operator):
 
-    bl_idname      = "hg3d.nextprev_content_saving_tab"
+    bl_idname      = "hg3d_legacy.nextprev_content_saving_tab"
     bl_label       = "Next/previous"
     bl_description = "Next/previous tab"
 

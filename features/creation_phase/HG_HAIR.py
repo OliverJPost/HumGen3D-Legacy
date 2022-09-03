@@ -10,7 +10,7 @@ from ...features.common.HG_COMMON_FUNC import (apply_shapekeys, find_human,
 from .HG_LENGTH import apply_armature
 
 
-class HG_REMOVE_HAIR(bpy.types.Operator):
+class HG_LEGACY_REMOVE_HAIR(bpy.types.Operator):
     """Removes the corresponding hair system
     
     Operator type:
@@ -21,7 +21,7 @@ class HG_REMOVE_HAIR(bpy.types.Operator):
         Active object is part of a HumGen human
         
     """
-    bl_idname      = "hg3d.removehair"
+    bl_idname      = "hg3d_legacy.removehair"
     bl_label       = "Remove hair system"
     bl_description = "Removes this specific hair system from your human"
     bl_options     = {"UNDO"}
@@ -45,7 +45,7 @@ class HG_REMOVE_HAIR(bpy.types.Operator):
     def invoke(self, context, event):
         return context.window_manager.invoke_confirm(self, event)
 
-class HG_TOGGLE_HAIR_CHILDREN(bpy.types.Operator):
+class HG_LEGACY_TOGGLE_HAIR_CHILDREN(bpy.types.Operator):
     """Turn hair children to 1 or back to render amount
 
     Operator type:
@@ -54,7 +54,7 @@ class HG_TOGGLE_HAIR_CHILDREN(bpy.types.Operator):
     Prereq:
         Active object is part of HumGen human
     """
-    bl_idname      = "hg3d.togglechildren"
+    bl_idname      = "hg3d_legacy.togglechildren"
     bl_label       = "Toggle hair children"
     bl_description = "Toggle between hidden and visible hair children"
     bl_options     = {"REGISTER", "UNDO"}
@@ -80,7 +80,7 @@ class HG_TOGGLE_HAIR_CHILDREN(bpy.types.Operator):
 
         return {'FINISHED'}
 
-class HG_EYEBROW_SWITCH(bpy.types.Operator):
+class HG_LEGACY_EYEBROW_SWITCH(bpy.types.Operator):
     """Cycle trough all eyebrow particle systems on this object
     
     Operator type:
@@ -94,7 +94,7 @@ class HG_EYEBROW_SWITCH(bpy.types.Operator):
     Args:
         forward (bool): True if go forward in list, False if go backward
     """
-    bl_idname      = "hg3d.eyebrowswitch"
+    bl_idname      = "hg3d_legacy.eyebrowswitch"
     bl_label       = "Switch eyebrows"
     bl_description = "Next or previous eyebrow style"
 
