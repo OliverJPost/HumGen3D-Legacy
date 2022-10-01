@@ -5,13 +5,15 @@ population of them
 
 import os
 from pathlib import Path
-from HumGen3D import hg_icons
+
 import bpy  # type: ignore
+from HumGen3D import hg_icons
 
 from ..features.common.HG_COMMON_FUNC import (
     HumGenException,
     find_human,
     get_addon_root,
+    get_new_addon_root,
     get_prefs,
     hg_log,
 )
@@ -90,9 +92,9 @@ def _populate_pcoll(self, context, pcoll_categ, ignore_genders, hg_rig = None):
               else hg_rig.HG.gender)
     categ_dir, subcateg_dir = _get_categ_and_subcateg_dirs(pcoll_categ, sett, gender)
     
-    pcoll_full_dir = str(pref.filepath) + str(Path('/{}/'.format(categ_dir)))
+    pcoll_full_dir = os.path.join(pref.filepath, categ_dir)
     if subcateg_dir != 'All':
-        pcoll_full_dir = pcoll_full_dir + str(Path('/{}/'.format(subcateg_dir)))
+        pcoll_full_dir = os.path.join(pcoll_full_dir, subcateg_dir)
    
     file_paths = list_pcoll_files_in_dir(pcoll_full_dir, pcoll_categ)    
     
@@ -223,7 +225,7 @@ def _load_thumbnail(thumb_name, pcoll) -> list:
     Returns:
         list: icon in enumarator
     """
-    filepath_thumb = os.path.join(get_addon_root(), 'icons', thumb_name+'.jpg')
+    filepath_thumb = os.path.join(get_new_addon_root(), 'user_interface', 'icons', thumb_name+'.jpg')
 
     if not pcoll.get(filepath_thumb):
         thumb = pcoll.load(filepath_thumb, filepath_thumb, 'IMAGE')

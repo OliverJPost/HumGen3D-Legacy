@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 
 import bpy  # type: ignore
+import HumGen3D
 
 
 #MODULE
@@ -209,6 +210,15 @@ def get_addon_root()->str:
     root_folder = Path(__file__).parent.parent.parent.absolute()
     
     return str(root_folder)
+
+def get_new_addon_root()->str:
+    """Get the filepath of the addon root folder in the Blender addons directory
+
+    Returns:
+        str: path of the root directory of the add-on
+    """
+        
+    return os.path.dirname(os.path.abspath(HumGen3D.__file__))
 
 def time_update(label, prev_time) -> int:
     hg_log(label, round(time.time()-prev_time, 2))
