@@ -5,11 +5,8 @@ Operators not related to any particular section
 import bpy
 
 from ...core.HG_PCOLL import refresh_pcoll
-from ...user_interface.HG_TIPS_SUGGESTIONS_UI import \
-    update_tips_from_context  # type: ignore
-from .HG_COMMON_FUNC import (find_human, get_prefs, hg_delete, hg_log,
-                             is_batch_result)
-from .HG_INFO_POPUPS import HG_OT_INFO
+from .HG_COMMON_FUNC import find_human, get_prefs, hg_delete, hg_log, is_batch_result
+from .HG_INFO_POPUPS import HG_LEGACY_OT_INFO
 
 
 class HG_LEGACY_DESELECT(bpy.types.Operator):
@@ -62,7 +59,7 @@ class HG_LEGACY_SECTION_TOGGLE(bpy.types.Operator):
         return self.execute(context)
 
     def execute(self,context):
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         sett.ui_phase = 'closed' if sett.ui_phase == self.section_name else self.section_name
         #PCOLL add here
         categ_dict = {
@@ -103,7 +100,7 @@ class HG_LEGACY_SECTION_TOGGLE(bpy.types.Operator):
             )
             
             if pref.auto_hide_popup:
-                HG_OT_INFO.ShowMessageBox(None, 'autohide_hair')
+                HG_LEGACY_OT_INFO.ShowMessageBox(None, 'autohide_hair')
 
 class HG_LEGACY_NEXT_PREV_HUMAN(bpy.types.Operator):
     """Zooms in on next or previous human in the scene
@@ -268,7 +265,7 @@ class HG_LEGACY_CLEAR_SEARCH(bpy.types.Operator):
     searchbox_name: bpy.props.StringProperty()
 
     def execute(self,context):
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         if self.searchbox_name == 'cpack_creator':
             get_prefs().cpack_content_search = ''
         else:
@@ -286,7 +283,7 @@ class HG_LEGACY_NEXTPREV_CONTENT_SAVING_TAB(bpy.types.Operator):
     next: bpy.props.BoolProperty()
 
     def execute(self,context):
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         
         
         if (self.next 

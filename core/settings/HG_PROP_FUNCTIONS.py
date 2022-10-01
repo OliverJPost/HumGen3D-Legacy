@@ -83,7 +83,7 @@ def find_item_amount(context, categ, gender, folder) -> int:
         dir = str(pref.filepath) + str(Path('/{}/{}'.format(categ, folder)))
 
     if categ =='outfits':
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         inside = sett.batch_clothing_inside
         outside = sett.batch_clothing_outside
         if inside and not outside:

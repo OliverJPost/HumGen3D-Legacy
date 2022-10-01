@@ -8,8 +8,13 @@ from pathlib import Path
 
 import bpy  # type: ignore
 
-from ..features.common.HG_COMMON_FUNC import (HumGenException, find_human, get_addon_root,
-                                              get_prefs, hg_log)
+from ..features.common.HG_COMMON_FUNC import (
+    HumGenException,
+    find_human,
+    get_addon_root,
+    get_prefs,
+    hg_log,
+)
 
 preview_collections = {} #global dictionary of all pcolls
 
@@ -34,7 +39,7 @@ def refresh_pcoll(self, context, pcoll_name, ignore_genders = False, hg_rig = No
     Args:
         pcoll_name (str): name of the preview collection to refresh
     """
-    sett = context.scene.HG3D
+    sett = context.scene.HG3D_LEGACY
     _check_for_HumGen_filepath_issues(self)
 
     sett.load_exception = False if pcoll_name == 'poses' else True
@@ -67,7 +72,7 @@ def _populate_pcoll(self, context, pcoll_categ, ignore_genders, hg_rig = None):
     Args:
         pcoll_categ (str): name of preview collection
     """
-    sett = context.scene.HG3D
+    sett = context.scene.HG3D_LEGACY
     pref = get_prefs()
 
     #create variables if they dont exist in settings
@@ -94,8 +99,7 @@ def _populate_pcoll(self, context, pcoll_categ, ignore_genders, hg_rig = None):
     path_list = []  
     # I don't know why, but putting this double fixes a recurring issue where
     # pcoll equels None
-    pcoll = preview_collections.setdefault("pcoll_{}".format(pcoll_categ))
-    pcoll = preview_collections.setdefault("pcoll_{}".format(pcoll_categ))
+    pcoll = preview_collections[f"pcoll_{pcoll_categ}"]
     
     none_thumb = _load_thumbnail('pcoll_placeholder', pcoll)
     pcoll_enum = [('none', '', '', none_thumb.icon_id, 0)]
@@ -164,7 +168,7 @@ def list_pcoll_files_in_dir(dir, pcoll_type) -> list:
     Returns:
         list: list of file paths in dir of certain extension
     """
-    sett = bpy.context.scene.HG3D
+    sett = bpy.context.scene.HG3D_LEGACY
     
     search_term = _get_search_term(pcoll_type, sett)
 

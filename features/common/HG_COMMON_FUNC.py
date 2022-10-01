@@ -53,9 +53,8 @@ def get_prefs() -> bpy.types.AddonPreferences:
     Returns:
         AddonPreferences: HumGen user preferences
     """
-    addon_name = __package__.split('.')[0]
-    
-    return bpy.context.preferences.addons[addon_name].preferences
+
+    return bpy.context.preferences.addons["HumGen3D"].preferences
 
 #MODULE
 def find_human(obj, include_applied_batch_results = False) -> bpy.types.Object:
@@ -150,7 +149,7 @@ def make_path_absolute(key):
         key (str): path
     """
 
-    props = bpy.context.scene.HG3D 
+    props = bpy.context.scene.HG3D_LEGACY 
     sane_path = lambda p: os.path.abspath(bpy.path.abspath(p)) 
     if key in props and props[key].startswith('//'):
         props[key] = sane_path(props[key])

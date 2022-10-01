@@ -33,15 +33,17 @@ import bpy  # type: ignore
 import bpy.utils.previews  # type: ignore # Has to be imported like this, otherwise returns error for some users
 from bpy.app.handlers import persistent  # type: ignore
 
-from .core.settings.HG_PROPS import HG_OBJECT_PROPS, HG_SETTINGS
-from .user_interface import HG_BATCH_UILIST, HG_UTILITY_UILISTS
+from .core.HG_PCOLL import preview_collections
+from .core.settings.HG_PROPS import HG_LEGACY_SETTINGS
 
 
 ########### startup procedure #########
 @persistent
-def HG_start(dummy):
-    """Runs the activating class when a file is loaded or blender is opened
+def HG_LEGACY_start(dummy):
+    """Runs the activating class when a file is loaded or blender is openedx
     """    
+    bpy.ops.hg3d_legacy.activate()
+    
 def _initiate_preview_collections():
     #initiate preview collections
     pcoll_names = [
@@ -61,7 +63,7 @@ def _initiate_preview_collections():
             f"pcoll_{pcoll_name}",
             bpy.utils.previews.new()
             )
-    bpy.ops.hg3d_legacy.activate()
+
 
 
 from .HG_CLASSES import hg_classes
@@ -72,22 +74,24 @@ def register():
     for cls in hg_classes:    
         bpy.utils.register_class(cls)
     
-    bpy.types.Scene.HG3D_LEGACY = bpy.props.PointerProperty(type=HG_SETTINGS) #Main props
-
+    bpy.types.Scene.HG3D_LEGACY = bpy.props.PointerProperty(type=HG_LEGACY_SETTINGS) #Main props
+    _initiate_preview_collections()
+    
     #load handler
-    if not HG_start in bpy.app.handlers.load_post:
-        bpy.app.handlers.load_post.append(HG_start)
+    if not HG_LEGACY_start in bpy.app.handlers.load_post:
+        bpy.app.handlers.load_post.append(HG_LEGACY_start)
 
 def unregister():
     for cls in hg_classes:
         bpy.utils.unregister_class(cls)
     
     #remove handler
-    if HG_start in bpy.app.handlers.load_post:
-        bpy.app.handlers.load_post.remove(HG_start)
-
-    bpy.types.VIEW3D_MT_add.remove(add_hg_primitive_menu)
-
+    if HG_LEGACY_start in bpy.app.handlers.load_post:
+        bpy.app.handlers.load_post.remove(HG_LEGACY_start)
+    
+    for pcoll in preview_collections.values():
+        bpy.utils.previews.remove(pcoll)
+        
     preview_collections.clear()
 
 if __name__ == "__main__":

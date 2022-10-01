@@ -199,7 +199,7 @@ class HG_LEGACY_RIGIFY(bpy.types.Operator):
 def load_pose(self, context):
     """Gets called by pcoll_pose to add selected pose to human
     """
-    sett = context.scene.HG3D
+    sett = context.scene.HG3D_LEGACY
     pref = get_prefs()
         
     if sett.load_exception:
@@ -236,13 +236,13 @@ def _import_pose(context) -> bpy.types.Object:
     """
     pref = get_prefs()
 
-    blendfile = str(pref.filepath) + context.scene.HG3D.pcoll_poses
+    blendfile = str(pref.filepath) + context.scene.HG3D_LEGACY.pcoll_poses
     with bpy.data.libraries.load(blendfile, link = False) as (data_from ,data_to):
         data_to.objects = ['HG_Pose']
 
     hg_pose = data_to.objects[0]
     if not hg_pose:
-        hg_log('Could not load pose:', context.scene.HG3D.pcoll_poses, level = 'WARNING')
+        hg_log('Could not load pose:', context.scene.HG3D_LEGACY.pcoll_poses, level = 'WARNING')
     
     scene = context.scene
     scene.collection.objects.link(hg_pose)

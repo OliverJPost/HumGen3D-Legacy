@@ -149,7 +149,7 @@ def load_hair(self,context, type):
         type (str): type of hair to load ('head' or 'facial_hair')
     """
     pref = get_prefs()
-    sett = context.scene.HG3D
+    sett = context.scene.HG3D_LEGACY
 
     hair_data = _get_hair_json(type, pref, sett)
 

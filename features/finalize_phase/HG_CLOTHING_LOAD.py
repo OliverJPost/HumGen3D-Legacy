@@ -25,7 +25,7 @@ def load_outfit(self,context, footwear = False):
         footwear (boolean): True if called by pcoll_footwear, else loads as outfit
     """ 
     pref    = get_prefs()
-    sett    = context.scene.HG3D
+    sett    = context.scene.HG3D_LEGACY
     hg_rig  = find_human(context.active_object)
     hg_body = hg_rig.HG.body_obj
 
@@ -66,7 +66,7 @@ def load_outfit(self,context, footwear = False):
 
 def _deform_cloth_to_human(self, context, hg_rig, hg_body, obj):
     """Deforms the cloth object to the shape of the active HumGen human by using
-    HG_SHAPEKEY_CALCULATOR
+    HG_LEGACY_SHAPEKEY_CALCULATOR
 
     Args:
         hg_rig (Object): HumGen armature

@@ -25,7 +25,7 @@ class HG_LEGACY_RANDOM_LENGTH(bpy.types.Operator):
     bl_options     = {"UNDO"}
 
     def execute(self,context):
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         sett.human_length = random.randrange(150, 200)
         return {'FINISHED'}
 
@@ -33,12 +33,12 @@ def update_length(self, context):
     """Called by human_length prop, changes stretch bone position in order to
     set length of the active human
     """
-    if context.scene.HG3D.update_exception:
+    if context.scene.HG3D_LEGACY.update_exception:
         return
     
     hg_rig  = find_human(context.active_object)
     hg_body = hg_rig.HG.body_obj
-    sett    = context.scene.HG3D
+    sett    = context.scene.HG3D_LEGACY
     
     multiplier = ((2*sett.human_length)/100 -4)*-1
     old_length = hg_rig.dimensions[2]

@@ -14,7 +14,7 @@ def load_textures(self, context):
     hg_body = hg_rig.HG.body_obj
     gender  = hg_rig.HG.gender
 
-    sett = context.scene.HG3D
+    sett = context.scene.HG3D_LEGACY
     
     diffuse_texture = sett.pcoll_textures
     library         = sett.texture_library
@@ -159,10 +159,10 @@ def toggle_sss(self, context):
     Turns subsurface on and off
     '''
     
-    if context.scene.HG3D.update_exception:
+    if context.scene.HG3D_LEGACY.update_exception:
         return
 
-    toggle  = context.scene.HG3D.skin_sss
+    toggle  = context.scene.HG3D_LEGACY.skin_sss
     hg_rig  = find_human(context.object)
     hg_body = hg_rig.HG.body_obj
     mat     = hg_body.data.materials[0]
@@ -178,10 +178,10 @@ def toggle_underwear(self, context):
     '''
     Turns underwear on and off
     '''
-    if context.scene.HG3D.update_exception:
+    if context.scene.HG3D_LEGACY.update_exception:
         return
    
-    toggle  = context.scene.HG3D.underwear_switch
+    toggle  = context.scene.HG3D_LEGACY.underwear_switch
     hg_rig  = find_human(context.object)
     hg_body = hg_rig.HG.body_obj
     mat     = hg_body.data.materials[0]

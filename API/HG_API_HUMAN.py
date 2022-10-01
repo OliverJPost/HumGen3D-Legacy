@@ -14,7 +14,7 @@ from ..features.common.HG_COMMON_FUNC import (HumGenException, get_prefs,
                                               hg_log, toggle_hair_visibility)
 from ..features.common.HG_RANDOM import random_body_type as _random_body_type
 from ..features.creation_phase.HG_CREATION import \
-    HG_CREATION_BASE  # type:ignore
+    HG_LEGACY_CREATION_BASE  # type:ignore
 from ..features.creation_phase.HG_FACE import \
     randomize_facial_feature_categ as _randomize_facial_feature_categ
 from ..features.creation_phase.HG_FINISH_CREATION_PHASE import \
@@ -103,7 +103,7 @@ class HG_LEGACY_Human():
     make new humans or modify existing ones.
     """
     def __init__(self, existing_human = None):
-        """Creates a new HG_Human instance. Either pass the rig object of an
+        """Creates a new HG_LEGACY_Human instance. Either pass the rig object of an
         existing human or use create() to add this human to your Blender scene.
 
         Args:
@@ -122,7 +122,7 @@ class HG_LEGACY_Human():
             self._rig_object = existing_human
             self._body_object = existing_human.HG.body_obj
             self._gender = existing_human.HG.gender
-            self._key_blocks = HG_Key_Blocks(body_object=self._body_object)
+            self._key_blocks = HG_LEGACY_Key_Blocks(body_object=self._body_object)
         else:
             self._rig_object = None
             self._body_object = None
@@ -297,7 +297,7 @@ class HG_LEGACY_Human():
                 bpy.context will be used.
             gender (str, optional): Choose a gender in ('male', 'female') to get
                 options for. If not passed, a random gender will be chosen,
-                which can be checked with the .gender property of your HG_Human
+                which can be checked with the .gender property of your HG_LEGACY_Human
                 instance.
         Returns:
             list[str]: List of all items in this preview collection
@@ -305,10 +305,10 @@ class HG_LEGACY_Human():
             ValueError: If passed gender is not in ('male', 'female')
         """
         context = self.__check_passed_context(context)
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         
         if self._rig_object:
-            raise HumGenException('This HG_Human instance already exists in Blender.')
+            raise HumGenException('This HG_LEGACY_Human instance already exists in Blender.')
         
         if gender:
             if gender not in ('male', 'female'):
@@ -325,7 +325,7 @@ class HG_LEGACY_Human():
                ) -> bpy.types.Object:
         """Adds a new human to the active Blender scene. Required for most
         functionality if you didn't pass an existing_human when creating your 
-        HG_Human instance.
+        HG_LEGACY_Human instance.
 
         Args:
             context (context, optional): Blender context. If None is passed, 
@@ -340,10 +340,10 @@ class HG_LEGACY_Human():
                 already exists in Blender.
         """
         context = self.__check_passed_context(context)
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
   
         if self._rig_object:
-            raise HumGenException('This HG_Human instance already exists in Blender.')  
+            raise HumGenException('This HG_LEGACY_Human instance already exists in Blender.')  
         
         if not self._gender:
             self._gender = random.choice(('male', 'female')) 
@@ -356,13 +356,13 @@ class HG_LEGACY_Human():
         else:
             sett.pcoll_humans = random.choice(self.get_starting_human_options(context))
         
-        hg_rig, hg_body = HG_CREATION_BASE().create_human(context)
+        hg_rig, hg_body = HG_LEGACY_CREATION_BASE().create_human(context)
         
-        HG_CREATION_BASE()._give_random_name_to_human(self._gender, hg_rig)
+        HG_LEGACY_CREATION_BASE()._give_random_name_to_human(self._gender, hg_rig)
         
         self._rig_object = hg_rig
         self._body_object = hg_body
-        self._key_blocks = HG_Key_Blocks(body_object=self._body_object)
+        self._key_blocks = HG_LEGACY_Key_Blocks(body_object=self._body_object)
 
     def randomize_body_proportions(self):
         """Randomize the body proportion sliders of this human. Only possible
@@ -672,7 +672,7 @@ class HG_LEGACY_Human():
         Returns:
             list[str]: List of options in this preview collection
         """
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         
         refresh_pcoll(None, context, pcoll_name, hg_rig = self._rig_object)
         pcoll_list = sett['previews_list_{}'.format(pcoll_name)]
@@ -689,7 +689,7 @@ class HG_LEGACY_Human():
             'patterns')
             item_to_set_as_active (str): Name of item to set as active
         """
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         
         refresh_pcoll(None, context, pcoll_name, hg_rig = self._rig_object)
         setattr(sett, f'pcoll_{pcoll_name}', item_to_set_as_active)
@@ -717,7 +717,7 @@ class HG_LEGACY_Human():
                 exist in Blender, but the rig_object does not exist.
         """
         if not self._rig_object:
-            raise HumGenException("This HG_Human instance does not yet exist in Blender.")
+            raise HumGenException("This HG_LEGACY_Human instance does not yet exist in Blender.")
         
     def __check_passed_context(self, context):
         context = context if context else bpy.context

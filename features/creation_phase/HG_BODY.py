@@ -9,7 +9,7 @@ def scale_bones(self, context, bone_type):
         bone_type (str): internal name of bone group to scale
     """
     hg_rig       = find_human(context.object)
-    sett         = context.scene.HG3D
+    sett         = context.scene.HG3D_LEGACY
 
     if sett.update_exception:
         return
@@ -74,9 +74,9 @@ def get_scaling_data(bone_type, sett, return_whole_dict = False) -> dict:
     }
 
     # if experimental:
-    #     size = (context.scene.HG3D.chest_size + 0.5)
+    #     size = (context.scene.HG3D_LEGACY.chest_size + 0.5)
     # else:
-    #     size = (context.scene.HG3D.chest_size + 2.5)/3
+    #     size = (context.scene.HG3D_LEGACY.chest_size + 2.5)/3
 
     sc = scaling_dict[bone_type]
     if return_whole_dict:

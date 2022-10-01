@@ -28,7 +28,7 @@ class HG_LEGACY_CREATION_BASE():
                 hg_rig : Armature of newly created human, used for storing props
                 hg_body: Body object of newly created human
         """
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         pref = get_prefs()
 
         gender, hg_rig, hg_body, hg_eyes = self._import_human(context, sett, pref)
@@ -79,7 +79,7 @@ class HG_LEGACY_CREATION_BASE():
         return hg_rig, hg_body
 
     def _give_random_name_to_human(self, gender, hg_rig) -> str:
-        """Gets a random name for HG_NAMEGEN
+        """Gets a random name for HG_LEGACY_NAMEGEN
 
         Args:
             gender (str): gender of this human
@@ -110,7 +110,7 @@ class HG_LEGACY_CREATION_BASE():
 
     def _import_human(self, context, sett, pref
                       ) -> 'tuple[str, bpy.types.Object, bpy.types.Object, bpy.types.Object]':
-        """Import human from HG_HUMAN.blend and add it to scene
+        """Import human from HG_LEGACY_HUMAN.blend and add it to scene
         Also adds some identifiers to the objects to find them later
 
         Args:
@@ -124,7 +124,7 @@ class HG_LEGACY_CREATION_BASE():
                 hg_body (Object): imported body of human
                 hg_eyes (Object): imported eyes of human
         """
-        #import from HG_Human file
+        #import from HG_LEGACY_Human file
         blendfile = str(pref.filepath) + str(Path('/models/HG_HUMAN.blend'))
         with bpy.data.libraries.load(blendfile, link = False) as (data_from ,data_to):
             data_to.objects = ['HG_Rig',
@@ -430,11 +430,11 @@ class HG_LEGACY_START_CREATION(bpy.types.Operator, HG_LEGACY_CREATION_BASE):
 
     @classmethod
     def poll (cls, context):
-        return (context.scene.HG3D.pcoll_humans != 'none' 
-                or context.scene.HG3D.active_ui_tab == 'BATCH')
+        return (context.scene.HG3D_LEGACY.pcoll_humans != 'none' 
+                or context.scene.HG3D_LEGACY.active_ui_tab == 'BATCH')
 
     def execute(self,context):
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         sett.ui_phase = 'body'
 
         hg_rig, _ = self.create_human(context)

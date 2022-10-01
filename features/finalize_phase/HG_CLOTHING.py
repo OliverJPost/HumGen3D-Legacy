@@ -92,7 +92,7 @@ class HG_LEGACY_OT_PATTERN(bpy.types.Operator):
             self.nodes['HG_Control'].inputs['Pattern'].default_value = (0,0,0,1)
             return {'FINISHED'} 
         
-        set_random_active_in_pcoll(context, context.scene.HG3D, 'patterns')
+        set_random_active_in_pcoll(context, context.scene.HG3D_LEGACY, 'patterns')
         return {'FINISHED'} 
 
     def _create_node_if_doesnt_exist(self, name) -> bpy.types.ShaderNode:
@@ -142,7 +142,7 @@ def load_pattern(self,context):
     except:
         self.report({'WARNING'}, "Couldn't find pattern node, click 'Remove pattern' and try to add it again")
 
-    filepath = str(pref.filepath) + str(Path(context.scene.HG3D.pcoll_patterns))
+    filepath = str(pref.filepath) + str(Path(context.scene.HG3D_LEGACY.pcoll_patterns))
     images   = bpy.data.images
     pattern  = images.load(filepath, check_existing=True)
     

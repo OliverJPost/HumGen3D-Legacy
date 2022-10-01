@@ -31,7 +31,7 @@ class HG_LEGACY_ACTIVATE(bpy.types.Operator):
     bl_description = "Activate HumGen"
     
     def execute(self, context):    
-        sett = bpy.context.scene.HG3D
+        sett = bpy.context.scene.HG3D_LEGACY
         sett.subscribed = False
 
         msgbus(self, context)
@@ -42,7 +42,7 @@ def msgbus(self, context):
     """
     Activates the subscribtion to the active object
     """ 
-    sett = bpy.context.scene.HG3D
+    sett = bpy.context.scene.HG3D_LEGACY
 
     if sett.subscribed == True:
         return
@@ -52,11 +52,11 @@ def msgbus(self, context):
         key    = subscribe_to,
         owner  = self,
         args   = (self,),
-        notify = HG_Legacy_Callback,
+        notify = HG_LEGACY_Legacy_Callback,
         )
     sett.subscribed = True    
 
-def HG_Legacy_Callback(self):
+def HG_LEGACY_Legacy_Callback(self):
     """
     Runs every time the active object changes
     """ 
@@ -67,11 +67,10 @@ def HG_Legacy_Callback(self):
     
     _check_body_object(hg_rig)
 
-    sett = bpy.context.scene.HG3D
+    sett = bpy.context.scene.HG3D_LEGACY
     ui_phase = sett.ui_phase
     
     _set_shader_switches(hg_rig, sett)
-    update_tips_from_context(bpy.context, sett, hg_rig)
     _context_specific_updates(self, sett, hg_rig, ui_phase)
 
 def _check_body_object(hg_rig):

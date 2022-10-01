@@ -5,11 +5,15 @@ Operator and corresponding functions for finishing the cration phase
 import bpy  # type: ignore
 
 from ...core.HG_PCOLL import refresh_pcoll
-from ...features.common.HG_COMMON_FUNC import (ShowMessageBox,
-                                               add_to_collection,
-                                               apply_shapekeys, find_human,
-                                               get_prefs, hg_delete, hg_log)
-from ...features.common.HG_INFO_POPUPS import HG_OT_INFO
+from ...features.common.HG_COMMON_FUNC import (
+    ShowMessageBox,
+    add_to_collection,
+    apply_shapekeys,
+    find_human,
+    get_prefs,
+    hg_delete,
+    hg_log,
+)
 from .HG_LENGTH import apply_armature, apply_length_to_rig
 
 
@@ -57,8 +61,7 @@ class HG_LEGACY_FINISH_CREATION(bpy.types.Operator):
             if ps_sett.child_nbr > 1:
                 ps_sett.child_nbr = 1
                 self.report({'INFO'}, 'Hair children were hidden to improve performance. This can be turned off in preferences')
-                if pref.auto_hide_popup:
-                    HG_OT_INFO.ShowMessageBox(None, 'autohide_hair')
+
 
         finish_creation_phase(self, context, hg_rig, hg_body)     
         hg_rig.HG.phase = 'clothing'       
@@ -77,7 +80,7 @@ class HG_LEGACY_FINISH_CREATION(bpy.types.Operator):
             return context.window_manager.invoke_confirm(self, event)
 
 def finish_creation_phase(self, context, hg_rig, hg_body):
-    """For full feature breakdown, see HG_FINISH_CREATION
+    """For full feature breakdown, see HG_LEGACY_FINISH_CREATION
 
     Args:
         hg_rig (Object): HumGen armature

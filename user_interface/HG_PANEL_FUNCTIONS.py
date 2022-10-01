@@ -30,18 +30,6 @@ def draw_sub_spoiler(
     return spoiler_open, boxbox
 
 
-def draw_panel_switch_header(layout, sett):
-    """Draws a enum prop that switches between main humgen panel and extras panel
-
-    Args:
-        layout (UILayout): header layout to draw the switch in
-        sett (PropertyGroup): HumGen props
-    """
-    row = layout.row()
-    row.scale_x   = 1.5
-    row.alignment = 'EXPAND'
-    row.prop(sett, 'active_ui_tab', expand = True, icon_only = True)
-
 
 def get_flow(sett, layout, animation = False) -> bpy.types.UILayout:
     """Returns a property split enabled UILayout

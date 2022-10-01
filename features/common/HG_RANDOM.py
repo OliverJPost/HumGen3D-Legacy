@@ -17,7 +17,7 @@ from .HG_COMMON_FUNC import find_human
 
 class HG_LEGACY_COLOR_RANDOM(bpy.types.Operator):
     """
-    Sets the color slot to a random color from the color dicts from HG_COLORS
+    Sets the color slot to a random color from the color dicts from HG_LEGACY_COLORS
     
     Operator type:
         Material
@@ -27,8 +27,8 @@ class HG_LEGACY_COLOR_RANDOM(bpy.types.Operator):
         Active material of active object is a HumGen clothing material
         
     Args:
-        input_name (str): Name of HG_Control node input to randomize the color for
-        color_group (str):  Name of the color groups stored in HG_COLOR to pick
+        input_name (str): Name of HG_LEGACY_Control node input to randomize the color for
+        color_group (str):  Name of the color groups stored in HG_LEGACY_COLOR to pick
             colors from
     """
     bl_idname      = "hg3d_legacy.color_random"
@@ -94,7 +94,7 @@ class HG_LEGACY_RANDOM(bpy.types.Operator):
 
     def execute(self,context):
         random_type = self.random_type
-        sett = context.scene.HG3D
+        sett = context.scene.HG3D_LEGACY
         hg_rig = find_human(context.active_object)
 
         if random_type == 'body_type':

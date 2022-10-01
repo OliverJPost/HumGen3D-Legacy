@@ -9,7 +9,7 @@ from bpy.props import (  # type: ignore
     StringProperty,
 )
 
-from ...features.common.HG_COMMON_FUNC import make_path_absolute
+from ...core.HG_PCOLL import get_pcoll_enum_items, refresh_pcoll
 from ...features.creation_phase.HG_BODY import scale_bones
 from ...features.creation_phase.HG_HAIR import load_hair, update_hair_shader_type
 from ...features.creation_phase.HG_LENGTH import update_length
@@ -22,7 +22,6 @@ from ...features.finalize_phase.HG_CLOTHING import load_pattern
 from ...features.finalize_phase.HG_CLOTHING_LOAD import load_outfit
 from ...features.finalize_phase.HG_EXPRESSION import load_expression
 from ...features.finalize_phase.HG_POSE import load_pose
-from ...user_interface import HG_BATCH_UILIST
 from .HG_PROP_FUNCTIONS import (
     add_image_to_thumb_enum,
     find_folders,
