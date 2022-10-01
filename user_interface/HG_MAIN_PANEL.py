@@ -1147,21 +1147,6 @@ class HG_PT_LEGACY(bpy.types.Panel):
                         text = 'Root Hue'
                         )   
 
-    def _draw_hair_cards_ui(self, box):
-        """draws button for adding hair cards
-
-        Args:
-            box (UILayout): layout.box of hair section
-        """
-        boxbox = box.box()
-        boxbox.prop(
-            self.sett, 'hair_cards_ui',
-            icon="TRIA_DOWN" if self.sett.hair_cards_ui else "TRIA_RIGHT",
-            emboss=False,
-            toggle=True)
-
-        if self.sett.hair_cards_ui:
-            box.operator('hg3d_legacy.haircards')
 
     def _get_hair_systems(self, body_obj, eyesystems = False) -> list:
         """get a list of hair systems on this object

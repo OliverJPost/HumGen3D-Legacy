@@ -20,7 +20,6 @@ from .features.creation_phase.HG_HAIR import (
     HG_LEGACY_REMOVE_HAIR,
     HG_LEGACY_TOGGLE_HAIR_CHILDREN,
 )
-from .features.creation_phase.HG_HAIRCARDS import HG_LEGACY_CONVERT_HAIRCARDS
 from .features.creation_phase.HG_LENGTH import HG_LEGACY_RANDOM_LENGTH
 from .features.finalize_phase.HG_CLOTHING import (
     HG_LEGACY_BACK_TO_HUMAN,
@@ -92,7 +91,6 @@ hg_classes = (
     #Hair
     HG_LEGACY_TOGGLE_HAIR_CHILDREN,
     HG_LEGACY_REMOVE_HAIR,
-    HG_LEGACY_CONVERT_HAIRCARDS,
 
     #expression
     HG_LEGACY_REMOVE_SHAPEKEY,

@@ -10,13 +10,16 @@ from sys import platform
 import bpy  # type: ignore
 
 from ...core.HG_PCOLL import refresh_pcoll
-from ...features.common.HG_COMMON_FUNC import (ShowMessageBox,
-                                               add_to_collection, get_prefs,
-                                               hg_delete, hg_log, show_message)
-from .HG_HAIR import (add_quality_props_to_hair_system,
-                      convert_to_new_hair_shader)
+from ...features.common.HG_COMMON_FUNC import (
+    ShowMessageBox,
+    add_to_collection,
+    get_prefs,
+    hg_delete,
+    hg_log,
+    show_message,
+)
+from .HG_HAIR import add_quality_props_to_hair_system, convert_to_new_hair_shader
 from .HG_MATERIAL import set_gender_specific_shader
-from .HG_NAMEGEN import get_name
 
 
 class HG_LEGACY_CREATION_BASE():
@@ -96,12 +99,13 @@ class HG_LEGACY_CREATION_BASE():
             taken_names.append(obj.name[4:])
         
         #generate name
-        name = get_name(gender)
+        name = "placeholder_name"
+        #name = get_name(gender) #FIXME
 
         #get new name if it's already taken
         i=0
         while i<10 and name in taken_names:
-            name = get_name(gender)
+            #name = get_name(gender) #FIXME
             i+=1
         
         hg_rig.name = 'HG_' + name
