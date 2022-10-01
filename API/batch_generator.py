@@ -7,13 +7,18 @@ import time
 import bpy  # type:ignore
 from HumGen3D.backend import get_addon_root, get_prefs
 
-from HumGen3D.human.base.decorators import injected_context
-from ..backend.logging import hg_log
-from .human import HG_Human
+from ..features.common.HG_COMMON_FUNC import get_addon_root  # type:ignore
+from ..features.common.HG_COMMON_FUNC import (
+    HumGenException,
+    get_prefs,
+    hg_log,
+    toggle_hair_visibility,
+)
+from .HG_API_HUMAN import HG_Human
 
 
 class HG_Batch_Generator:
-    """Generator/factory (?) for making completed HG_Humans in the background, the
+    """Generator/factory (?) for making completed HG_LEGACY_Humans in the background, the
     same way as the batch panel in the Human Generator GUI does."""
 
     def __init__(
@@ -80,13 +85,13 @@ class HG_Batch_Generator:
         hair_type="particle",
         hair_quality="medium",
         add_expression=False,
-        expression_category="All",
+        expressions_category="All",
         add_clothing=False,
         clothing_category="All",
         pose_type="a_pose",
     ) -> HG_Human:
-        """Generate a new HG_Human in a background proces based on the settings
-        of this HG_Batch_Generator instance and import the created human to
+        """Generate a new HG_LEGACY_Human in a background proces based on the settings
+        of this HG_LEGACY_Batch_Generator instance and import the created human to
         Blender
 
         Args:
@@ -112,7 +117,7 @@ class HG_Batch_Generator:
             add_expression (bool, optional): If True, a 1-click expression will be
                 added to the human.
                 Defaults to False.
-            expression_category (str, optional): Category to choose expression
+            expressions_category (str, optional): Category to choose expression
                 from.
                 Use get_pcoll_categs('expressions') to see options.
                 Ignored if add_expression == False.
@@ -121,7 +126,7 @@ class HG_Batch_Generator:
                 added to this human.
                 Defaults to False.
             clothing_category (str, optional): Category to choose outfit from.
-                Use get_pcoll_categs('outfits') to see options.
+                Use get_pcoll_categs('outfit') to see options.
                 Ignored if add_clothing == False.
                 Defaults to 'All'.
             pose_type (str, optional): Category to choose pose from.
@@ -131,8 +136,20 @@ class HG_Batch_Generator:
             HG_Human: Python representation of a Human Generator Human. See
                 [[HG_Human]]
         """
+        context = context if context else bpy.context
 
-        settings_dict = self.__construct_settings_dict_from_kwargs(locals())
+        settings_dict = self.__construct_settings_dict_from_kwargs(
+            gender=gender,
+            ethnicity=ethnicity,
+            add_hair=add_hair,
+            hair_type=hair_type,
+            hair_quality=hair_quality,
+            add_expression=add_expression,
+            expressions_category=expressions_category,
+            add_clothing=add_clothing,
+            clothing_category=clothing_category,
+            pose_type=pose_type,
+        )
 
         for obj in context.selected_objects:
             obj.select_set(False)
@@ -153,13 +170,9 @@ class HG_Batch_Generator:
 
         hg_rig = self.__import_generated_human()
 
-        return hg_rig
-        # FIXME keep old API active
-        # return HG_Human(existing_human=hg_rig)
+        return HG_Human(existing_human=hg_rig)
 
-    def __construct_settings_dict_from_kwargs(self, settings_dict):
-        del settings_dict["self"]
-        del settings_dict["context"]
+    def __construct_settings_dict_from_kwargs(self, **settings_dict):
         if not settings_dict["gender"]:
             settings_dict["gender"] = random.choice(("male", "female"))
         if not settings_dict["ethnicity"]:
@@ -170,10 +183,11 @@ class HG_Batch_Generator:
         return settings_dict
 
     def __run_hg_subprocess(self, python_file, settings_dict):
+        is_background = "--background" if get_prefs().batch_in_background else ""
         background_blender = subprocess.run(
             [
                 bpy.app.binary_path,
-                "--background",
+                is_background,
                 "--python",
                 python_file,
                 json.dumps({**settings_dict, **vars(self)}),
@@ -183,14 +197,11 @@ class HG_Batch_Generator:
         )
 
         for line in background_blender.stdout.decode("utf-8").splitlines():
-            if line.startswith(("HG_", "\033")):
+            if get_prefs().debug_mode or line.startswith(("HG_", "\033")):
                 print(line)
 
         if background_blender.stderr:
-            hg_log(
-                "Exception occured while in background process",
-                level="WARNING",
-            )
+            hg_log("Exception occured while in background process", level="WARNING")
             print(background_blender.stderr.decode("utf-8"))
             # ShowMessageBox(message =
             #    f'''An error occured while generating human, check the console for error details''')
@@ -206,7 +217,7 @@ class HG_Batch_Generator:
 
         for obj in data_to.objects:
             bpy.context.scene.collection.objects.link(obj)
-            # toggle_hair_visibility(obj, show=True)
+            toggle_hair_visibility(obj, show=True)
 
         human_parent = next(
             (obj for obj in data_to.objects if obj.HG.ishuman and obj.HG.backup),
