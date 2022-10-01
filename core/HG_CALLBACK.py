@@ -10,10 +10,10 @@ This callback has the following usages:
 '''
 
 import bpy
+from ..core.HG_PCOLL import refresh_pcoll
 
 from ..features.common.HG_COMMON_FUNC import find_human, hg_log
 from ..features.creation_phase.HG_BODY import get_scaling_data
-
 
 class HG_LEGACY_ACTIVATE(bpy.types.Operator):
     """
