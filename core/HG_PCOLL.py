@@ -5,7 +5,7 @@ population of them
 
 import os
 from pathlib import Path
-
+from HumGen3D import hg_icons
 import bpy  # type: ignore
 
 from ..features.common.HG_COMMON_FUNC import (
@@ -306,6 +306,4 @@ def _get_search_term(pcoll_type, sett) -> str:
     return search_term
 
 def get_hg_icon(icon_name) -> int:
-    icon_list = preview_collections['hg_icons']
-    
-    return icon_list[icon_name].icon_id
+    return hg_icons[0][icon_name].icon_id

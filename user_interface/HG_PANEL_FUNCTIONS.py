@@ -1,6 +1,6 @@
 import bpy  # type: ignore
 
-from ..core.HG_PCOLL import preview_collections
+from ..core.HG_PCOLL import get_hg_icon, preview_collections
 
 
 def draw_sub_spoiler(
@@ -111,10 +111,9 @@ def draw_spoiler_box(self, ui_name) -> 'tuple[bool, bpy.types.UILayout]':
         label = 'Creation Phase Backup'
     
     try:
-        hg_icons =  preview_collections["hg_icons"]
         row.operator('hg3d_legacy.section_toggle',
                      text = label,
-                     icon_value= hg_icons[ui_name].icon_id,
+                     icon_value= get_hg_icon(ui_name),
                      emboss = False
                      ).section_name = ui_name
     except:

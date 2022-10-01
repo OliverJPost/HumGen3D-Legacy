@@ -6,7 +6,7 @@ import addon_utils  # type: ignore
 import bpy
 
 from .. import bl_info
-from ..core.HG_PCOLL import preview_collections
+from ..core.HG_PCOLL import get_hg_icon, preview_collections
 from ..data.HG_COLORS import color_dict
 from ..features.common.HG_COMMON_FUNC import find_human, get_prefs, is_batch_result
 from .HG_PANEL_FUNCTIONS import (
@@ -1216,7 +1216,6 @@ class HG_PT_LEGACY(bpy.types.Panel):
             return
         
         sett = self.sett
-        hg_icons = preview_collections["hg_icons"]
 
         col_h = box.column()
         col_h.scale_y = 1.5
@@ -1231,7 +1230,7 @@ class HG_PT_LEGACY(bpy.types.Panel):
         
         row = boxbox.row()
         row.alignment = 'CENTER'
-        row.label(text = 'Skin Settings', icon_value = hg_icons['skin'].icon_id)
+        row.label(text = 'Skin Settings', icon_value = get_hg_icon('skin'))
         
         nodes = self.hg_rig.HG.body_obj.data.materials[0].node_tree.nodes
         
@@ -1250,7 +1249,7 @@ class HG_PT_LEGACY(bpy.types.Panel):
         row = boxbox.row()
         row.alignment = 'CENTER'
         row.label(text = 'Hair Settings',
-                  icon_value = hg_icons['hair'].icon_id
+                  icon_value = get_hg_icon('hair')
                   )
         
         
@@ -1545,11 +1544,10 @@ class HG_PT_LEGACY(bpy.types.Panel):
             return
 
         sett = self.sett
-        hg_icons = preview_collections['hg_icons']
 
         col = layout.column(align = True)
         
-        self._draw_clothmat_header(context, hg_icons, col)
+        self._draw_clothmat_header(context, col)
 
         nodes = context.object.data.materials[0].node_tree.nodes
         control_node = nodes['HG_Control']
@@ -1560,7 +1558,7 @@ class HG_PT_LEGACY(bpy.types.Panel):
         if 'Pattern' in control_node.inputs:
             self._draw_pattern_subsection(sett, layout, control_node)
 
-    def _draw_clothmat_header(self, context, hg_icons, col):
+    def _draw_clothmat_header(self, context, col):
         """Draws header for the clothing material UI, with clothing name, 
         button to go back to normal UI and button to delete clothing item
 
@@ -1574,9 +1572,9 @@ class HG_PT_LEGACY(bpy.types.Panel):
         box.alignment = 'CENTER'
         box.label(
             text = context.object.name.replace('_', ' ').replace('HG', ''),
-            icon_value = (hg_icons['clothing'].icon_id 
+            icon_value = (get_hg_icon('clothing') 
                          if 'cloth' in context.object 
-                         else hg_icons['footwear'].icon_id)
+                         else get_hg_icon('footwear'))
             )
 
         col.operator(
