@@ -25,7 +25,7 @@ from ..user_interface.HG_PANEL_FUNCTIONS import \
     in_creation_phase as _in_creation_phase
 
 
-class HG_LEGACY_Key_Blocks():
+class HG_Key_Blocks():
     """Object that contains the different types of key_blocks used by Human 
     Generator humans.
     """
@@ -98,7 +98,7 @@ class HG_LEGACY_Key_Blocks():
                 if sk.name.startswith(prefix)
                 ]
 
-class HG_LEGACY_Human():
+class HG_Human():
     """Python representation of a Human Generator human. Can be used to either
     make new humans or modify existing ones.
     """
@@ -122,7 +122,7 @@ class HG_LEGACY_Human():
             self._rig_object = existing_human
             self._body_object = existing_human.HG.body_obj
             self._gender = existing_human.HG.gender
-            self._key_blocks = HG_LEGACY_Key_Blocks(body_object=self._body_object)
+            self._key_blocks = HG_Key_Blocks(body_object=self._body_object)
         else:
             self._rig_object = None
             self._body_object = None
@@ -362,7 +362,7 @@ class HG_LEGACY_Human():
         
         self._rig_object = hg_rig
         self._body_object = hg_body
-        self._key_blocks = HG_LEGACY_Key_Blocks(body_object=self._body_object)
+        self._key_blocks = HG_Key_Blocks(body_object=self._body_object)
 
     def randomize_body_proportions(self):
         """Randomize the body proportion sliders of this human. Only possible

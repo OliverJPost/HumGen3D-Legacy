@@ -13,10 +13,10 @@ from ..features.common.HG_COMMON_FUNC import (
     hg_log,
     toggle_hair_visibility,
 )
-from .HG_API_HUMAN import HG_LEGACY_Human
+from .HG_API_HUMAN import HG_Human
 
 
-class HG_LEGACY_Batch_Generator:
+class HG_Batch_Generator:
     """Generator/factory (?) for making completed HG_LEGACY_Humans in the background, the
     same way as the batch panel in the Human Generator GUI does."""
 
@@ -87,7 +87,7 @@ class HG_LEGACY_Batch_Generator:
         add_clothing=False,
         clothing_category="All",
         pose_type="a_pose",
-    ) -> HG_LEGACY_Human:
+    ) -> HG_Human:
         """Generate a new HG_LEGACY_Human in a background proces based on the settings
         of this HG_LEGACY_Batch_Generator instance and import the created human to
         Blender
@@ -131,7 +131,7 @@ class HG_LEGACY_Batch_Generator:
                 Use get_pcoll_categs('pose') to see options.
                 Defaults to 'A_Pose'.
         Returns:
-            HG_LEGACY_Human: Python representation of a Human Generator Human. See
+            HG_Human: Python representation of a Human Generator Human. See
                 [[HG_Human]]
         """
         context = context if context else bpy.context
@@ -168,7 +168,7 @@ class HG_LEGACY_Batch_Generator:
 
         hg_rig = self.__import_generated_human()
 
-        return HG_LEGACY_Human(existing_human=hg_rig)
+        return HG_Human(existing_human=hg_rig)
 
     def __construct_settings_dict_from_kwargs(self, **settings_dict):
         if not settings_dict["gender"]:

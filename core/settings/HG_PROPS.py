@@ -23,11 +23,8 @@ from ...features.finalize_phase.HG_CLOTHING_LOAD import load_outfit
 from ...features.finalize_phase.HG_EXPRESSION import load_expression
 from ...features.finalize_phase.HG_POSE import load_pose
 from .HG_PROP_FUNCTIONS import (
-    add_image_to_thumb_enum,
     find_folders,
     get_resolutions,
-    poll_mtc_armature,
-    thumbnail_saving_prop_update,
 )
 
 
