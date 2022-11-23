@@ -33,8 +33,8 @@ class HG_PT_LEGACY(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        return context.object and tuple(context.object.HG.version) == (3,0,0)
-
+        rig = find_human(context.object)
+        return rig and tuple(rig.HG.version) == (3,0,0)
 
     def draw(self,context):
         layout      = self.layout
